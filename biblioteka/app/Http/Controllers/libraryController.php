@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\Validator;
 
 class libraryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $books = \App\books::all();
@@ -30,25 +26,16 @@ class libraryController extends Controller
             }
         }
 
-        return view('home',['books' => $books ]);
+        return view('home',['books' => isset($books) ? $books : '' ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         return view('create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $rules = array(
@@ -71,18 +58,6 @@ class libraryController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-
     public function edit($id)
     {
        $book = \App\books::where('id',$id)->get();
@@ -90,13 +65,7 @@ class libraryController extends Controller
         return view('edit', ['book'=> isset($book) ? $book : '']);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         $rules = array(
@@ -119,12 +88,6 @@ class libraryController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $book = \App\books::where('id',$id);
