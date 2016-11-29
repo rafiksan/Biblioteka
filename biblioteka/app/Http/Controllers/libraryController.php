@@ -26,7 +26,7 @@ class libraryController extends Controller
             }
         }
 
-        return view('home',['books' => isset($books) ? $books : '' ]);
+        return view('home',['books' => $books ]);
     }
 
 
@@ -34,7 +34,6 @@ class libraryController extends Controller
     {
         return view('create');
     }
-
 
     public function store(Request $request)
     {
@@ -57,7 +56,7 @@ class libraryController extends Controller
             return redirect('/');
         }
     }
-
+    
     public function edit($id)
     {
        $book = \App\books::where('id',$id)->get();
@@ -76,7 +75,7 @@ class libraryController extends Controller
         $validator = Validator::make(Input::all(), $rules);
         if($validator->fails())
         {
-            return redirect('create')->withErrors($validator->errors());;
+            return redirect('create')->withErrors($validator->errors());
         }
         else {
             $book = \App\books::find($id);
@@ -91,9 +90,14 @@ class libraryController extends Controller
     public function destroy($id)
     {
         $book = \App\books::where('id',$id);
+        if($book) {
+            $book->delete();
+            return redirect('/');
+        }
+        else
+        {
+            return redirect('/');
+        }
 
-        $book->delete();
-
-        return redirect('/');
     }
 }
